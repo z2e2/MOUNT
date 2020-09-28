@@ -103,7 +103,7 @@ def train(train_loader, model, criterion, optimizer, epoch, print_freq, device, 
     accs = AverageMeter()  # average acc for a batch
     
     for i, (seqs, seqs_len, labels_1, labels_2, labels_3) in enumerate(train_loader):
-        index = torch.flip(np.argsort(seqs_len), dims = [0])
+        index = torch.from_numpy(np.argsort(seqs_len.data.numpy())[::-1].copy())
         seqs = seqs[index]
         seqs_len = seqs_len[index]
         labels_1 = labels_1[index]
@@ -179,7 +179,7 @@ def validate(val_loader, model, criterion, print_freq, device):
     # no gradient calculation
     with torch.no_grad():
         for i, (seqs, seqs_len, labels_1, labels_2, labels_3) in enumerate(val_loader):
-            index = torch.flip(np.argsort(seqs_len), dims = [0])
+            index = torch.from_numpy(np.argsort(seqs_len.data.numpy())[::-1].copy())
             seqs = seqs[index]
             seqs_len = seqs_len[index]
             labels_1 = labels_1[index]
