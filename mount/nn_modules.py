@@ -178,7 +178,7 @@ class LearningModule(nn.Module):
         :return logits: logits
         '''
         x = self.resnet(x)
-        packed_x = pack_padded_sequence(x, x_length, batch_first=True, enforce_sorted=False)
+        packed_x = pack_padded_sequence(x, x_length, batch_first=True)
         packed_h, _ = self.bilstm(packed_x) # (batch_size, max_len, n_hidden_state*2)
         h, _ = pad_packed_sequence(packed_h, batch_first=True, total_length=1013)
 

@@ -1,7 +1,7 @@
 import math
 import torch
 from torch.utils.data import Dataset
-from .nn_modules import CrossStitchModel
+from .nn_modules import *
 
 class dataloader(Dataset):
     '''
@@ -103,7 +103,12 @@ def train(train_loader, model, criterion, optimizer, epoch, print_freq, device, 
     accs = AverageMeter()  # average acc for a batch
     
     for i, (seqs, seqs_len, labels_1, labels_2, labels_3) in enumerate(train_loader):
-        
+        index = torch.argsort(seqs_len)
+        seqs = seqs[index]
+        seqs_len = seqs_len[index]
+        labels_1 = labels_1[index]
+        labels_2 = labels_2[index]
+        labels_3 = labels_3[index]
         # move to CPU/GPU
         seqs = seqs.to(device)
         seqs_len = seqs_len.to(device)
@@ -174,6 +179,12 @@ def validate(val_loader, model, criterion, print_freq, device):
     # no gradient calculation
     with torch.no_grad():
         for i, (seqs, seqs_len, labels_1, labels_2, labels_3) in enumerate(val_loader):
+            index = torch.argsort(seqs_len)
+            seqs = seqs[index]
+            seqs_len = seqs_len[index]
+            labels_1 = labels_1[index]
+            labels_2 = labels_2[index]
+            labels_3 = labels_3[index]
 
             # move to CPU/GPU
             seqs = seqs.to(device)

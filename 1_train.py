@@ -10,4 +10,4 @@ data = Data(opt.DATA_ROOT, opt.MAXLEN, opt.short_AMINO, dataset_type='train', tr
 
 train_target_data, val_target_data = data.load()
 
-train_eval(opt, train_target_data, test_target_data)
+train_eval(opt, train_target_data, val_target_data)
